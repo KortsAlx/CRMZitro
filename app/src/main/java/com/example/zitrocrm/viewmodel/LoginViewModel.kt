@@ -28,7 +28,7 @@ class LoginViewModel (
     val progressBar = mutableStateOf(value = false)
     private val loginRequestLiveData = MutableLiveData<Boolean>()
 
-    fun login(user: String, pwd: String) {
+    fun login(user: String, pwd: String, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 progressBar.value = true
@@ -42,7 +42,7 @@ class LoginViewModel (
                         Log.d("Logging", "Response TokenDto: ${responseInfoUser}")
                         //DataStoreViewModel(context)
                         //DataStoreViewModel()
-                        val dataStorePreferenceRepository = DataStorePreferenceRepository(MainActivity().baseContext)
+                        val dataStorePreferenceRepository = DataStorePreferenceRepository(context)
 
 
 

@@ -1,5 +1,6 @@
 package com.example.zitrocrm.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,7 +27,7 @@ import com.example.zitrocrm.ui.theme.blacktransp
 @Composable
 fun LoginScreen(
     loadingProgressBar: Boolean,
-    onclickLogin: (user: String, pwd: String) -> Unit,
+    onclickLogin: (user: String, pwd: String, context: Context) -> Unit,
     imageError: Boolean)
 {
     Scaffold {
@@ -58,8 +60,10 @@ fun LoginScreen(
 
             var user by rememberSaveable { mutableStateOf(value = "") }
             var pwd by rememberSaveable { mutableStateOf(value = "") }
+
             val isValidate by derivedStateOf { user.isNotBlank() && pwd.isNotBlank() }
             val focusManager = LocalFocusManager.current
+            val ctxt = LocalContext.current
 
             Column(
                 modifier = Modifier
@@ -100,7 +104,7 @@ fun LoginScreen(
                 Spacer(Modifier.size(50.dp))
 
                 ButtonLogin(
-                    onclick = { onclickLogin(user, pwd) },
+                    onclick = { onclickLogin(user, pwd, ctxt) },
                     enabled = isValidate
                 )
                 Spacer(Modifier.size(20.dp))
