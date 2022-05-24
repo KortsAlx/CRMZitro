@@ -8,6 +8,7 @@ import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import com.example.zitrocrm.MainActivity
 import com.example.zitrocrm.R
 import com.example.zitrocrm.repository.DataStorePreferenceRepository
 import com.example.zitrocrm.ui.theme.reds
+import com.example.zitrocrm.utils.SharedPrefence
 import com.example.zitrocrm.viewmodel.LoginViewModel
 
 //SIZE AND PADDING ICONS AND TEXT DRAWER
@@ -51,11 +53,11 @@ fun drawercontent(navController: NavController, loginViewModel: LoginViewModel){
 
 @Composable
 fun Cardusersettings(navController: NavController, loginViewModel: LoginViewModel){
-    val datastore = DataStorePreferenceRepository(navController.context)
+    val datastore = SharedPrefence(LocalContext.current)
 
-    val username = ""+datastore.getName.toString()
-    val userlastname =""+datastore.getLastName.toString()
-    val useremail = ""+datastore.getEmail.toString()
+    val username = ""+datastore.getName().toString()
+    val userlastname =""+datastore.getLastName().toString()
+    val useremail = ""+datastore.getName().toString()
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.Start) {
         Image(

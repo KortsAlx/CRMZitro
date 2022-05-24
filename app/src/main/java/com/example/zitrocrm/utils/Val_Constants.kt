@@ -2,7 +2,7 @@ package com.example.zitrocrm.utils
 
 object Val_Constants {
     /**BaseURL-Pruebas-Red Interna y Externa**/
-    const val BASE_URL = "http://zitrocrm.odelnorte.mx:8083"
+    const val BASE_URL = "http://zitrocrm.odelnorte.mx:8083/"
     /***LOGIN*/
     const val API_LOGIN = "api/login"
     /**FILTER**/

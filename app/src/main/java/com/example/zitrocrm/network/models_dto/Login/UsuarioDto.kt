@@ -12,8 +12,8 @@ data class UsuarioDto (
     @SerializedName("estatusidfk")       val statuId        : Int?,
     @SerializedName("correo")            val email          : String?,
     @SerializedName("departamento")      val departament    : String?,
-    @SerializedName("Idioma")            val language       : Int?,
-    @SerializedName("telefono")          val phone          : Int?,
+    //@SerializedName("Idioma")            val language       : Int?,
+    //@SerializedName("telefono")          val phone          : Int?,
     @SerializedName("no_empleado")       val numberEmpleado : Int?,
-    @SerializedName("regionComercial")   val comRegion      : Int?
+    //@SerializedName("regionComercial")   val comRegion      : Int?
 )

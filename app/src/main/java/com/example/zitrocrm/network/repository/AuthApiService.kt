@@ -12,7 +12,7 @@ interface AuthApiService {
     /**LOGIN**/
     @Headers("Content-Type: application/json")
     @POST(Val_Constants.API_LOGIN)
-    suspend fun getLogin(@Body loginDto: LoginDto) : Response<LoginrespDto>
+    suspend fun getLogin(@Body loginDto: LoginDto) : LoginrespDto
 
     /**FILTER SALAS-CLIENTE-REGIONES**/
     @Headers()

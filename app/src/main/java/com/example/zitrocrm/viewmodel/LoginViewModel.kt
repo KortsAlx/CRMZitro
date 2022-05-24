@@ -1,6 +1,7 @@
 package com.example.zitrocrm.viewmodel
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +16,7 @@ import com.example.zitrocrm.network.models_dto.Login.LoginDto
 import com.example.zitrocrm.network.repository.RetrofitHelper
 import com.example.zitrocrm.repository.DataStorePreferenceRepository
 import com.example.zitrocrm.repository.DataStoreViewModel
+import com.example.zitrocrm.utils.SharedPrefence
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,52 +34,32 @@ class LoginViewModel (
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 progressBar.value = true
+                delay(1500L)
                 val authService = RetrofitHelper.getAuthService()
                 val responseService = authService.getLogin(LoginDto(usuario = user, pwd = pwd))
 
-                if (responseService.isSuccessful) {
-                    delay(1500L)
+                if (responseService.ok) {
+                    
+                    val token = responseService.token
+
+                    val dataStorePreferenceRepository = SharedPrefence(context)
+
+
+                    dataStorePreferenceRepository.saveUser(user, pwd, responseService.usuario, token)
+
                     isSuccessLoading.value = true
-                    responseService.body()?.let { responseInfoUser ->
-                        Log.d("Logging", "Response TokenDto: ${responseInfoUser}")
-                        //DataStoreViewModel(context)
-                        //DataStoreViewModel()
-                        val dataStorePreferenceRepository = DataStorePreferenceRepository(context)
 
 
-
-
-                        dataStorePreferenceRepository.setUserInfo(
-                            responseInfoUser.token.toString(),
-                            user,
-                            ""+pwd,
-                            responseInfoUser.usuario.user,
-                            responseInfoUser.usuario.userId,
-                            responseInfoUser.usuario.name,
-                            responseInfoUser.usuario.lastName,
-                            responseInfoUser.usuario.pass,
-                            responseInfoUser.usuario.area,
-                            responseInfoUser.usuario.statuId,
-                            responseInfoUser.usuario.email,
-                            responseInfoUser.usuario.departament,
-                            responseInfoUser.usuario.language,
-                            responseInfoUser.usuario.phone,
-                            responseInfoUser.usuario.numberEmpleado,
-                            responseInfoUser.usuario.comRegion,
-                        )
-
-
-                    }
                 } else {
-                    responseService.errorBody()?.let { error ->
+                    /*responseService.errorBody()?.let { error ->
                         imageErrorAuth.value = true
-                        delay(1500L)
+                        //delay(1500L)
                         imageErrorAuth.value = false
                         error.close()
-                    }
+                    }*/
                 }
 
-                loginRequestLiveData.postValue(responseService.isSuccessful)
+                //loginRequestLiveData.postValue(responseService.isSuccessful)
                 progressBar.value = false
             } catch (e: Exception) {
                 Log.d("Logging", "Error Authentication", e)
